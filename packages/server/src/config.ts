@@ -25,6 +25,8 @@ export interface EnvVariables {
 
 	// This must be the full path to the database file
 	SQLITE_DATABASE?: string;
+	
+	SNAP_DATA?: string;
 }
 
 let runningInDocker_: boolean = false;
@@ -101,8 +103,8 @@ export function initConfig(env: EnvVariables, overrides: any = null) {
 		rootDir: rootDir,
 		viewDir: viewDir,
 		layoutDir: `${viewDir}/layouts`,
-		tempDir: `${rootDir}/temp`,
-		logDir: `${rootDir}/logs`,
+		tempDir: `${env.SNAP_DATA}/temp`,
+		logDir: `${env.SNAP_DATA}/logs`,
 		database: databaseConfigFromEnv(runningInDocker_, env),
 		mailer: mailerConfigFromEnv(env),
 		port: appPort,

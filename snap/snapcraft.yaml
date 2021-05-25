@@ -1,0 +1,34 @@
+name: joplin-server
+base: core20
+version: 'PREVIEW'
+summary: Joplin server
+description: |
+  Lorem Ipsum bla bla bla
+
+grade: devel
+confinement: strict
+compression: lzo
+assumes: 
+  - command-chain
+
+parts:
+  joplin-server:
+    plugin: joplin
+    source: .
+    source-type: git
+    node-version: 14.17.0
+
+apps:
+  joplin-server:
+    command: NodeJS/bin/node dist/app.js
+    command-chain:
+      - environment-wrapper.sh
+    daemon: simple
+    restart-condition: on-failure
+    restart-delay: 10s
+    environment:
+      PATH: $SNAP/NodeJS/bin:$PATH
+      SQLITE_DATABASE: $SNAP_DATA/db.sqlite
+    plugs:
+      - network
+      - network-bind
